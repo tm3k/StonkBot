@@ -24,7 +24,9 @@ barsets5 = api.get_barset(set1, timeframe = '1D', limit = 60)
 
 
 # Method for getting ohlc data for the stock 30 days at a time
-def prep_data(stock):
+def make_df(stock):
+    
+    #Puts all ohlc data into lists
     open_vals = []
     for i in stock:
         day_open = i.o
@@ -60,12 +62,12 @@ def prep_data(stock):
     df['time'] = pd.to_datetime(df['time'])
     df['time'] = df['time'].dt.date
     
-    bb = TA.PERCENT_B(df)
-    bb = np.nan_to_num(bb)
-    df["%BB"] = bb
     
-
-    trade_signal = []
+    # %B indicator added to df
+    bb = TA.PERCENT_B(df)
+    bb = np.nan_to_num(bb)  #replaces NaN values with 0.0
+    df["%BB"] = bb #Adds %b value column to df
+    trade_signal = [] #loops thru %b values
     for i in bb:
         
         if i == 0:
@@ -77,9 +79,11 @@ def prep_data(stock):
         elif i <= 1 and i >= 0:
             trade_signal.append('')
 
+    #Adds trade column to df
     action = pd.DataFrame(trade_signal)
     df['Trade'] = action
 
+    #For viewer ease of use
     pd.set_option('display.width', None)
     pd.set_option('display.max_rows', 60)
     return df
@@ -91,7 +95,7 @@ def prep_data(stock):
 
 # Test code for calling get_ohlc_data and getting the first(of 30) day's ohlc data
 aapl_bars=barsets1['AAPL']
-AAPL = prep_data(aapl_bars)
+AAPL = make_df(aapl_bars)
 
 print(AAPL)
 
