@@ -93,14 +93,8 @@ def make_df(stock):
     
 
 
-# Test code for calling get_ohlc_data and getting the first(of 30) day's ohlc data
+# Test code for calling get_ohlc_data and getting 60 day's ohlc data + signals
 aapl_bars=barsets1['AAPL']
 AAPL = make_df(aapl_bars)
 
 print(AAPL)
-
-
-
-
-
-
