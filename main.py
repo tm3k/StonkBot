@@ -15,11 +15,12 @@ set2 = spx500.spx[101:201]
 set3 = spx500.spx[202:302]
 set4 = spx500.spx[303:403]
 set5 = spx500.spx[404:504]
-barsets1 = api.get_barset(set1, timeframe = '1D', limit = 60)
-barsets2 = api.get_barset(set1, timeframe = '1D', limit = 60)
-barsets3 = api.get_barset(set1, timeframe = '1D', limit = 60)
-barsets4 = api.get_barset(set1, timeframe = '1D', limit = 60)
-barsets5 = api.get_barset(set1, timeframe = '1D', limit = 60)
+barsets1 = api.get_barset(set1, timeframe = '1D', limit = 100)
+barsets2 = api.get_barset(set1, timeframe = '1D', limit = 100)
+barsets3 = api.get_barset(set1, timeframe = '1D', limit = 100)
+barsets4 = api.get_barset(set1, timeframe = '1D', limit = 100)
+barsets5 = api.get_barset(set1, timeframe = '1D', limit = 100)
+
 
 
 
@@ -85,7 +86,7 @@ def make_df(stock):
 
     #For viewer ease of use
     pd.set_option('display.width', None)
-    pd.set_option('display.max_rows', 60)
+    pd.set_option('display.max_rows', 100)
     return df
     
 
@@ -94,7 +95,21 @@ def make_df(stock):
 
 
 # Test code for calling get_ohlc_data and getting 60 day's ohlc data + signals
-aapl_bars=barsets1['AAPL']
-AAPL = make_df(aapl_bars)
 
-print(AAPL)
+# aapl_bars=barsets1['AAPL']
+# AAPL = make_df(aapl_bars)
+# print(AAPL)
+
+
+# Method for taking OHLC data and creating a list of stocks that fit the predetermined buy parameters
+def makelist(set):
+    x=1 #iterable value to loop through tickers
+    for i in set:
+        print(i)
+        bars = barsets1[(i)]
+        db = make_df(bars)
+        print(db)
+
+        x+=1
+
+makelist(set1)
