@@ -1,1 +1,1 @@
-# StonkBot unfinished, work in progress
+# StonkBot 99% finished.
