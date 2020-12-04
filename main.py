@@ -11,15 +11,16 @@ api = tradeapi.REST(creds.api_key, creds.api_secret, api_version='v1')
 
 # Can only call 100 stocks at a time thru the api so had to split it up
 set1 = spx500.spx[:100]
-set2 = spx500.spx[101:201]
-set3 = spx500.spx[202:302]
-set4 = spx500.spx[303:403]
-set5 = spx500.spx[404:504]
+set2 = spx500.spx[100:200]
+set3 = spx500.spx[200:300]
+set4 = spx500.spx[300:400]
+set5 = spx500.spx[400:500]
+set6 = spx500.spx[500:600] #for extra stocks add to end of list
 barsets1 = api.get_barset(set1, timeframe = '1D', limit = 100)
-barsets2 = api.get_barset(set1, timeframe = '1D', limit = 100)
-barsets3 = api.get_barset(set1, timeframe = '1D', limit = 100)
-barsets4 = api.get_barset(set1, timeframe = '1D', limit = 100)
-barsets5 = api.get_barset(set1, timeframe = '1D', limit = 100)
+barsets2 = api.get_barset(set2, timeframe = '1D', limit = 100)
+barsets3 = api.get_barset(set3, timeframe = '1D', limit = 100)
+barsets4 = api.get_barset(set4, timeframe = '1D', limit = 100)
+barsets5 = api.get_barset(set5, timeframe = '1D', limit = 100)
 
 
 
@@ -86,7 +87,7 @@ def make_df(stock):
 
     #For viewer ease of use
     pd.set_option('display.width', None)
-    pd.set_option('display.max_rows', 100)
+    pd.set_option('display.max_rows', 75    )
     return df
     
 
@@ -102,7 +103,7 @@ def make_df(stock):
 
 
 # Method for taking OHLC data and creating a list of stocks that fit the predetermined buy parameters
-def makelist(set):
+def makelist1(set):
     x=1 #iterable value to loop through tickers
     for i in set:
         print(i)
@@ -112,4 +113,86 @@ def makelist(set):
 
         x+=1
 
-makelist(set1)
+def makelist2(set):
+    x=1 #iterable value to loop through tickers
+    for i in set:
+        print(i)
+        bars = barsets2[(i)]
+        db = make_df(bars)
+        print(db)
+
+        x+=1
+
+def makelist3(set):
+    x=1 #iterable value to loop through tickers
+    for i in set:
+        print(i)
+        bars = barsets3[(i)]
+        db = make_df(bars)
+        print(db)
+
+        x+=1
+
+def makelist4(set):
+    x=1 #iterable value to loop through tickers
+    for i in set:
+        print(i)
+        bars = barsets4[(i)]
+        db = make_df(bars)
+        print(db)
+
+        x+=1
+
+def makelist5(set):
+    x=1 #iterable value to loop through tickers
+    for i in set:
+        print(i)
+        bars = barsets5[(i)]
+        db = make_df(bars)
+        print(db)
+
+        x+=1
+
+print("This is the first set")
+makelist1(set1)
+
+
+print("This is the second set")
+makelist2(set2)
+
+
+print("This is the third set")
+makelist3(set3)
+
+
+print("This is the fourth set")
+makelist4(set4)
+
+
+print("This is the fifth set")
+makelist5(set5)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
