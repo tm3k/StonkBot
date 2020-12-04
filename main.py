@@ -75,9 +75,9 @@ def make_df(stock):
         if i == 0:
             trade_signal.append(''),
         elif i > 1:
-            trade_signal.append('X'),
+            trade_signal.append('XX'),
         elif i < 0:
-            trade_signal.append('X'),
+            trade_signal.append('XX'),
         elif i <= 1 and i >= 0:
             trade_signal.append('')
 
@@ -85,9 +85,10 @@ def make_df(stock):
     action = pd.DataFrame(trade_signal)
     df['Trade'] = action
 
+
     #For viewer ease of use
     pd.set_option('display.width', None)
-    pd.set_option('display.max_rows', 75    )
+    pd.set_option('display.max_rows', 75)
     return df
     
 
@@ -96,13 +97,13 @@ def make_df(stock):
 
 
 # Test code for calling get_ohlc_data and getting 60 day's ohlc data + signals
-
 # aapl_bars=barsets1['AAPL']
 # AAPL = make_df(aapl_bars)
 # print(AAPL)
 
 
-# Method for taking OHLC data and creating a list of stocks that fit the predetermined buy parameters
+# Methods for taking OHLC data and creating a list of stocks that fit the predetermined buy parameters, 
+# Need multiple methods because of API limit
 def makelist1(set):
     x=1 #iterable value to loop through tickers
     for i in set:
@@ -171,28 +172,5 @@ makelist4(set4)
 
 print("This is the fifth set")
 makelist5(set5)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
