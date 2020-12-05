@@ -4,10 +4,10 @@ import alpaca_trade_api as tradeapi
 import spx500
 import pandas as pd
 import numpy as np
+import matplotlib as mpl
 
 # Creates API object
 api = tradeapi.REST(creds.api_key, creds.api_secret, api_version='v1') 
-
 
 # Can only call 100 stocks at a time thru the api so had to split it up
 set1 = spx500.spx[:100]
@@ -21,9 +21,6 @@ barsets2 = api.get_barset(set2, timeframe = '1D', limit = 100)
 barsets3 = api.get_barset(set3, timeframe = '1D', limit = 100)
 barsets4 = api.get_barset(set4, timeframe = '1D', limit = 100)
 barsets5 = api.get_barset(set5, timeframe = '1D', limit = 100)
-
-
-
 
 # Method for getting ohlc data for the stock 30 days at a time
 def make_df(stock):
@@ -49,12 +46,10 @@ def make_df(stock):
         day_close = i.c
         close_vals.append(day_close)
 
-
     candle_times = []
     for i in stock:
         candle_time = i.t 
         candle_times.append(candle_time)
-
 
     zippedList = list(zip(open_vals, high_vals, low_vals, close_vals))
     df = pd.DataFrame(zippedList, columns = ['open' , 'high', 'low', 'close'])
@@ -63,7 +58,6 @@ def make_df(stock):
     # Magic code to remove hours minutes and seconds from timestamp, formats code for viewing
     df['time'] = pd.to_datetime(df['time'])
     df['time'] = df['time'].dt.date
-    
     
     # %B indicator added to df
     bb = TA.PERCENT_B(df)
@@ -75,9 +69,9 @@ def make_df(stock):
         if i == 0:
             trade_signal.append(''),
         elif i > 1:
-            trade_signal.append('XX'),
+            trade_signal.append('XXXXXXX'),
         elif i < 0:
-            trade_signal.append('XX'),
+            trade_signal.append('XXXXXXX'),
         elif i <= 1 and i >= 0:
             trade_signal.append('')
 
@@ -85,21 +79,10 @@ def make_df(stock):
     action = pd.DataFrame(trade_signal)
     df['Trade'] = action
 
-
     #For viewer ease of use
     pd.set_option('display.width', None)
-    pd.set_option('display.max_rows', 75)
+    pd.set_option('display.max_rows', None)
     return df
-    
-
-
-    
-
-
-# Test code for calling get_ohlc_data and getting 60 day's ohlc data + signals
-# aapl_bars=barsets1['AAPL']
-# AAPL = make_df(aapl_bars)
-# print(AAPL)
 
 
 # Methods for taking OHLC data and creating a list of stocks that fit the predetermined buy parameters, 
@@ -107,70 +90,65 @@ def make_df(stock):
 def makelist1(set):
     x=1 #iterable value to loop through tickers
     for i in set:
-        print(i)
         bars = barsets1[(i)]
         db = make_df(bars)
-        print(db)
-
+        signal = (db['Trade'])
+        var = signal.tail(1)
+        bools = var.str.contains('XXXXXXX')
+        if bools[99] == True:
+            print(i)
         x+=1
 
 def makelist2(set):
     x=1 #iterable value to loop through tickers
     for i in set:
-        print(i)
         bars = barsets2[(i)]
         db = make_df(bars)
-        print(db)
-
+        signal = (db['Trade'])
+        var = signal.tail(1)
+        bools = var.str.contains('XXXXXXX')
+        if bools[99] == True:
+            print(i)
         x+=1
 
 def makelist3(set):
     x=1 #iterable value to loop through tickers
     for i in set:
-        print(i)
         bars = barsets3[(i)]
         db = make_df(bars)
-        print(db)
-
+        signal = (db['Trade'])
+        var = signal.tail(1)
+        bools = var.str.contains('XXXXXXX')
+        if bools[99] == True:
+            print(i)
         x+=1
 
 def makelist4(set):
     x=1 #iterable value to loop through tickers
     for i in set:
-        print(i)
         bars = barsets4[(i)]
         db = make_df(bars)
-        print(db)
-
+        signal = (db['Trade'])
+        var = signal.tail(1)
+        bools = var.str.contains('XXXXXXX')
+        if bools[99] == True:
+            print(i)
         x+=1
 
 def makelist5(set):
     x=1 #iterable value to loop through tickers
     for i in set:
-        print(i)
         bars = barsets5[(i)]
         db = make_df(bars)
-        print(db)
-
+        signal = (db['Trade'])
+        var = signal.tail(1)
+        bools = var.str.contains('XXXXXXX')
+        if bools[99] == True:
+            print(i)
         x+=1
 
-print("This is the first set")
 makelist1(set1)
-
-
-print("This is the second set")
 makelist2(set2)
-
-
-print("This is the third set")
 makelist3(set3)
-
-
-print("This is the fourth set")
 makelist4(set4)
-
-
-print("This is the fifth set")
 makelist5(set5)
-
-
