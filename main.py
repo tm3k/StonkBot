@@ -17,6 +17,8 @@ set3 = spx500.stocklist[200:300]
 set4 = spx500.stocklist[300:400]
 set5 = spx500.stocklist[400:500]
 set6 = spx500.stocklist[500:600]
+set7 = spx500.stocklist[600:700]
+set8 = spx500.stocklist[700:800]
 
 barsets1 = api.get_barset(set1, timeframe = '1D', limit = 100)
 barsets2 = api.get_barset(set2, timeframe = '1D', limit = 100)
@@ -24,8 +26,8 @@ barsets3 = api.get_barset(set3, timeframe = '1D', limit = 100)
 barsets4 = api.get_barset(set4, timeframe = '1D', limit = 100)
 barsets5 = api.get_barset(set5, timeframe = '1D', limit = 100)
 barsets6 = api.get_barset(set6, timeframe = '1D', limit = 100)
-# barsets7 = api.get_barset(set7, timeframe = '1D', limit = 100)
-
+barsets7 = api.get_barset(set7, timeframe = '1D', limit = 100)
+barsets8 = api.get_barset(set8, timeframe = '1D', limit = 100)
 
 # Method for getting ohlc data for the stock 30 days at a time
 def make_df(stock):
@@ -190,27 +192,60 @@ def makelist7(set):
         signal = (db['Trade'])
         var = signal.tail(1)
         bools = var.str.contains('XXXXXXX')
-        if bools[99] == True:
-            print(i)
-        else:
-            continue
+        try:
+            if bools[99] == True:
+                print(i)
+        except KeyError:
+            print(f"Incomplete data for {i} KeyError at line 99")
         x+=1
 
+def makelist8(set):
+    x=1 #iterable value to loop through tickers
+    for i in set:
+        bars = barsets8[(i)]
+        db = make_df(bars)
+        signal = (db['Trade'])
+        var = signal.tail(1)
+        bools = var.str.contains('XXXXXXX')
+        try:
+            if bools[99] == True:
+                print(i)
+        except KeyError:
+            print(f"Incomplete data for {i} KeyError at line 99")
+        x+=1
+        
 makelist1(set1)
 makelist2(set2)
 makelist3(set3)
 makelist4(set4)
 makelist5(set5)
 makelist6(set6)
-#makelist7(set7)
-
-
-
-
+makelist7(set7)
+makelist8(set8)
 
 # Test code for calling get_ohlc_data and getting 60 day's ohlc data + signals
 # stok = barsets6['PYPL']
 # AAPL = make_df(stok)
 # print(AAPL)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
