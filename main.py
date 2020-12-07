@@ -29,6 +29,7 @@ barsets6 = api.get_barset(set6, timeframe = '1D', limit = 100)
 barsets7 = api.get_barset(set7, timeframe = '1D', limit = 100)
 barsets8 = api.get_barset(set8, timeframe = '1D', limit = 100)
 
+
 # Method for getting ohlc data for the stock 30 days at a time
 def make_df(stock):
     
@@ -222,6 +223,10 @@ makelist5(set5)
 makelist6(set6)
 makelist7(set7)
 makelist8(set8)
+
+
+
+
 
 # Test code for calling get_ohlc_data and getting 60 day's ohlc data + signals
 # stok = barsets6['PYPL']
