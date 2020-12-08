@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import matplotlib as mpl
 import time
-from datetime import date
+from datetime import date, time, datetime
 
 # Creates API object
 api = tradeapi.REST(creds.api_key, creds.api_secret, api_version='v1') 
@@ -30,7 +30,6 @@ barsets5 = api.get_barset(set5, timeframe = '1D', limit = 100)
 barsets6 = api.get_barset(set6, timeframe = '1D', limit = 100)
 barsets7 = api.get_barset(set7, timeframe = '1D', limit = 100)
 barsets8 = api.get_barset(set8, timeframe = '1D', limit = 100)
-
 
 # Method for getting ohlc data for the stock 30 days at a time
 def make_df(stock):
@@ -106,7 +105,9 @@ def makelist(set, barset):
         var = signal.tail(1)
         bools = var.str.contains('XXXXXXX')
         today = date.today()  # Code for writing to file.
-        writer = open(f"{today}.txt", 'a')
+        now = datetime.now()
+        time = now.strftime("%H-%M")
+        writer = open(f"{today} Time{time}.txt", 'a')
         try:
             if bools[99] == True:
                 print(i) #prints stock ticker to console
@@ -124,12 +125,3 @@ makelist(set5, barsets5)
 makelist(set6, barsets6)
 makelist(set7, barsets7)
 makelist(set8, barsets8)
-
-
-# Test code for calling get_ohlc_data and getting 60 day's ohlc data + signals
-# stok = barsets6['PYPL']
-# AAPL = make_df(stok)
-# print(AAPL)
-
-
-
