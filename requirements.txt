@@ -1,0 +1,5 @@
+alpaca-trade-api==0.51.0
+finta==1.2
+matplotlib==3.3.3
+numpy==1.19.4
+pandas==1.1.5
