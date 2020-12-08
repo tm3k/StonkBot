@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 import matplotlib as mpl
 import time
+from datetime import date
 
 # Creates API object
 api = tradeapi.REST(creds.api_key, creds.api_secret, api_version='v1') 
@@ -20,6 +21,7 @@ set6 = spx500.stocklist[500:600]
 set7 = spx500.stocklist[600:700]
 set8 = spx500.stocklist[700:800]
 
+#ohlc data for each set of stocks
 barsets1 = api.get_barset(set1, timeframe = '1D', limit = 100)
 barsets2 = api.get_barset(set2, timeframe = '1D', limit = 100)
 barsets3 = api.get_barset(set3, timeframe = '1D', limit = 100)
@@ -95,162 +97,39 @@ def make_df(stock):
 
 # Methods for taking OHLC data and creating a list of stocks that fit the predetermined buy parameters, 
 # Need multiple methods because of API limit
-def makelist1(set):
+def makelist(set, barset):
     x=1 #iterable value to loop through tickers
     for i in set:
-        bars = barsets1[(i)]
+        bars = barset[(i)]
         db = make_df(bars)
         signal = (db['Trade'])
         var = signal.tail(1)
         bools = var.str.contains('XXXXXXX')
+        today = date.today()  # Code for writing to file.
+        writer = open(f"{today}.txt", 'a')
         try:
             if bools[99] == True:
-                print(i)
+                print(i) #prints stock ticker to console
+                writer.write(f"{i}\n") #writes stock ticker to file
         except KeyError:
             print(f"Incomplete data for {i} KeyError at line 99")
         x+=1
 
-def makelist2(set):
-    x=1 #iterable value to loop through tickers
-    for i in set:
-        bars = barsets2[(i)]
-        db = make_df(bars)
-        signal = (db['Trade'])
-        var = signal.tail(1)
-        bools = var.str.contains('XXXXXXX')
-        try:
-            if bools[99] == True:
-                print(i)
-        except KeyError:
-            print(f"Incomplete data for {i} KeyError at line 99")
-        x+=1
-
-def makelist3(set):
-    x=1 #iterable value to loop through tickers
-    for i in set:
-        bars = barsets3[(i)]
-        db = make_df(bars)
-        signal = (db['Trade'])
-        var = signal.tail(1)
-        bools = var.str.contains('XXXXXXX')
-        try:
-            if bools[99] == True:
-                print(i)
-        except KeyError:
-            print(f"Incomplete data for {i} KeyError at line 99")
-        x+=1
-
-def makelist4(set):
-    x=1 #iterable value to loop through tickers
-    for i in set:
-        bars = barsets4[(i)]
-        db = make_df(bars)
-        signal = (db['Trade'])
-        var = signal.tail(1)
-        bools = var.str.contains('XXXXXXX')
-        try:
-            if bools[99] == True:
-                print(i)
-        except KeyError:
-            print(f"Incomplete data for {i} KeyError at line 99")
-        x+=1
-
-def makelist5(set):
-    x=1 #iterable value to loop through tickers
-    for i in set:
-        bars = barsets5[(i)]
-        db = make_df(bars)
-        signal = (db['Trade'])
-        var = signal.tail(1)
-        bools = var.str.contains('XXXXXXX')
-        try:
-            if bools[99] == True:
-                print(i)
-        except KeyError:
-            print(f"Incomplete data for {i} KeyError at line 99")
-        x+=1
-
-def makelist6(set):
-    x=1 #iterable value to loop through tickers
-    for i in set:
-        bars = barsets6[(i)]
-        db = make_df(bars)
-        signal = (db['Trade'])
-        var = signal.tail(1)
-        bools = var.str.contains('XXXXXXX')
-        try:
-            if bools[99] == True:
-                print(i)
-        except KeyError:
-            print(f"Incomplete data for {i} KeyError at line 99")
-        x+=1
-
-def makelist7(set):
-    x=1 #iterable value to loop through tickers
-    for i in set:
-        bars = barsets7[(i)]
-        db = make_df(bars)
-        signal = (db['Trade'])
-        var = signal.tail(1)
-        bools = var.str.contains('XXXXXXX')
-        try:
-            if bools[99] == True:
-                print(i)
-        except KeyError:
-            print(f"Incomplete data for {i} KeyError at line 99")
-        x+=1
-
-def makelist8(set):
-    x=1 #iterable value to loop through tickers
-    for i in set:
-        bars = barsets8[(i)]
-        db = make_df(bars)
-        signal = (db['Trade'])
-        var = signal.tail(1)
-        bools = var.str.contains('XXXXXXX')
-        try:
-            if bools[99] == True:
-                print(i)
-        except KeyError:
-            print(f"Incomplete data for {i} KeyError at line 99")
-        x+=1
-        
-makelist1(set1)
-makelist2(set2)
-makelist3(set3)
-makelist4(set4)
-makelist5(set5)
-makelist6(set6)
-makelist7(set7)
-makelist8(set8)
-
-
-
+       
+makelist(set1, barsets1)
+makelist(set2, barsets2)
+makelist(set3, barsets3)
+makelist(set4, barsets4)
+makelist(set5, barsets5)
+makelist(set6, barsets6)
+makelist(set7, barsets7)
+makelist(set8, barsets8)
 
 
 # Test code for calling get_ohlc_data and getting 60 day's ohlc data + signals
 # stok = barsets6['PYPL']
 # AAPL = make_df(stok)
 # print(AAPL)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
