@@ -1,2 +1,2 @@
-api_key = 'yourkey'
-api_secret = 'yourkey'
+api_key = ''
+api_secret = ''
