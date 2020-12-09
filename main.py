@@ -144,8 +144,8 @@ makelist(set8, barsets8)
 #waits 300 seconds aka 5 minutes after finish writing completed_list ^^ 
 #runs program again and checks for differences in the 2 lists
 
-print("\nWaiting 5 minutes...\n")
-t.sleep(300)
+print("\nWaiting 30 minutes...\n")
+t.sleep(1800)
 makelist(set1, barsets1)
 makelist(set2, barsets2)
 makelist(set3, barsets3)
