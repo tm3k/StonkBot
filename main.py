@@ -8,8 +8,6 @@ import matplotlib as mpl
 from datetime import date, time, datetime
 import time as t
 
-
-
 # Creates API object
 api = tradeapi.REST(creds.api_key, creds.api_secret, api_version='v1') 
 
@@ -99,9 +97,31 @@ def make_df(stock):
     pd.set_option('display.max_rows', None)
     return df
 
-
 # Methods for taking OHLC data and creating a list of stocks that fit the predetermined buy parameters, 
 # Need multiple methods because of API limit
+def makelist2(set, barset):
+    x=1 #iterable value to loop through tickers
+    for i in set:
+        bars = barset[(i)]
+        db = make_df(bars)
+        signal = (db['Trade'])
+        var = signal.tail(1)
+        bools = var.str.contains('XXXXXXX')
+        today = date.today()  # Code for writing to file with date and time.
+        now = datetime.now()
+        time = now.strftime(" H%H M%M")
+        writer = open(f"{today} {time}.txt", 'a') #cant write : to a filename    
+        try:
+            if bools[99] == True:
+                print(i) #prints stock ticker to console
+                writer.write(f"{i}\n") #writes stock ticker to file
+                completed_list2.append(i) #writes to list outside the scope of this loop and method.
+
+        except KeyError:
+            print(f"Incomplete data for {i} KeyError at line 99")
+        
+        x+=1
+
 def makelist(set, barset):
     x=1 #iterable value to loop through tickers
     for i in set:
@@ -125,12 +145,14 @@ def makelist(set, barset):
         
         x+=1
 
+
 # Method for comparing lists created. 
 def comparelist(list1,list2):
     for i in list2:
         if i not in list1:
             continue
-        else: print(i)
+            print(f"{i} not in first scan")
+        
 
 makelist(set1, barsets1)
 makelist(set2, barsets2)
@@ -143,17 +165,17 @@ makelist(set8, barsets8)
 
 #waits 300 seconds aka 5 minutes after finish writing completed_list ^^ 
 #runs program again and checks for differences in the 2 lists
-
-print("\nWaiting 30 minutes...\n")
-t.sleep(1800)
-makelist(set1, barsets1)
-makelist(set2, barsets2)
-makelist(set3, barsets3)
-makelist(set4, barsets4)
-makelist(set5, barsets5)
-makelist(set6, barsets6)
-makelist(set7, barsets7)
-makelist(set8, barsets8)
+# 10 min = 600
+print("\nWaiting 10 minutes...\n")
+t.sleep(600)
+makelist2(set1, barsets1)
+makelist2(set2, barsets2)
+makelist2(set3, barsets3)
+makelist2(set4, barsets4)
+makelist2(set5, barsets5)
+makelist2(set6, barsets6)
+makelist2(set7, barsets7)
+makelist2(set8, barsets8)
 
 print("\nDIFFERENCES: \n")
 xx = comparelist(completed_list,completed_list2) #passes two lists at top of program into method to compare differences. working?? not sure
