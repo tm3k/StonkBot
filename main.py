@@ -137,7 +137,7 @@ while True:
             writer = open(f"{today} {time}.txt", 'a') #cant write : to a filename    
             try:
                 if bools[99] == True:
-                    print(i) #prints stock ticker to console
+                    print(f"${i}") #prints stock ticker to console
                     writer.write(f"{i}\n") #writes stock ticker to file
                     completed_list.append(i) #writes to list outside the scope of this loop and method.
 
@@ -150,11 +150,14 @@ while True:
     # Method for comparing lists created. 
     def comparelist(list1,list2):
         for i in list2:
-            if i not in list1:
+            if i in list1:
                 continue
-                print(f"{i} not in first scan")
+                print(f"{i} Already in first scan")
+            else:
+                print(f"{i} Not in first scan")
+                
             
-
+    print('Watchlist:\n')
     makelist(set1, barsets1)
     makelist(set2, barsets2)
     makelist(set3, barsets3)
@@ -183,11 +186,15 @@ while True:
     makelist2(set7, barsets7)
     makelist2(set8, barsets8)
 
-    #print("\nDIFFERENCES: \n")
-    xx = comparelist(completed_list,completed_list2) #passes two lists at top of program into method to compare differences. working?? not sure
-    #print(xx)
-    
+    #passes two lists at top of program into method to compare differences. working?? not sure
+    completed_list = sorted(completed_list)   #
+    completed_list2 = sorted(completed_list2) #Alphabetical order list
+    xx = comparelist(completed_list,completed_list2)
     if not xx:    # If xx is not empty, tweet xx
-        print("No change\n")
+        print("\nVerdict: No change\n")
     else:
         print(xx)
+        print('----------')
+
+
+## COMPARISON IS BROKEN 
