@@ -168,7 +168,7 @@ while True:
     # 15 min = 900
     # 30 min = 1800
     print("\nScanning again in 30 minutes.\nWaiting...")
-    t.sleep(1)
+    t.sleep(1800)
     print('\nSecond Scan:\n')
 
     makelist2(set1, barsets1)
