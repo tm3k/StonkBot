@@ -149,7 +149,7 @@ while True:
     def comparelist(list1,list2):
         for i in list2:
             if i not in list1:
-                print(f"{i} Not in first scan")
+                print(f"{i} Not in first scan\n")
 
     print('\nWatchlist:\n')
     makelist(set1, barsets1)
