@@ -114,7 +114,7 @@ while True:
             writer = open(f"{today} {time}.txt", 'a') #cant write : to a filename    
             try:
                 if bools[99] == True:
-                    print(i) #prints stock ticker to console
+                    print(f"${i}") #prints stock ticker to console
                     writer.write(f"{i}\n") #writes stock ticker to file
                     completed_list2.append(i) #writes to list outside the scope of this loop and method.
 
@@ -146,7 +146,6 @@ while True:
             
             x+=1
 
-
     # Method for comparing lists created. 
     def comparelist(list1,list2):
         for i in list2:
@@ -155,8 +154,7 @@ while True:
                 print(f"{i} Already in first scan")
             else:
                 print(f"{i} Not in first scan")
-                
-            
+                        
     print('Watchlist:\n')
     makelist(set1, barsets1)
     makelist(set2, barsets2)
@@ -167,8 +165,8 @@ while True:
     makelist(set7, barsets7)
     makelist(set8, barsets8)
 
-    #waits 300 seconds aka 5 minutes after finish writing completed_list ^^ 
-    #runs program again and checks for differences in the 2 lists
+    # waits 300 seconds aka 5 minutes after finish writing completed_list ^^ 
+    # runs program again and checks for differences in the 2 lists
     # 5 min = 300
     # 10 min = 600
     # 15 min = 900
@@ -186,7 +184,7 @@ while True:
     makelist2(set7, barsets7)
     makelist2(set8, barsets8)
 
-    #passes two lists at top of program into method to compare differences. working?? not sure
+    # passes two lists at top of program into method to compare differences. working?? not sure
     completed_list = sorted(completed_list)   #
     completed_list2 = sorted(completed_list2) #Alphabetical order list
     xx = comparelist(completed_list,completed_list2)
@@ -195,6 +193,3 @@ while True:
     else:
         print(xx)
         print('----------')
-
-
-## COMPARISON IS BROKEN 
