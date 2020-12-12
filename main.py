@@ -4,7 +4,6 @@ import alpaca_trade_api as tradeapi
 import spx500
 import pandas as pd
 import numpy as np
-import matplotlib as mpl
 from datetime import date, time, datetime
 import time as t
 import tweepy
@@ -125,7 +124,6 @@ while True:
                     completed_list2.append(i) #writes to list outside the scope of this loop and method.
             except KeyError:
                 print(f"Incomplete data for {i} KeyError at line 99")
-            
             x+=1
 
     def makelist(set, barset):
@@ -144,11 +142,9 @@ while True:
                 if bools[99] == True:
                     print(f"${i}") #prints stock ticker to console
                     writer.write(f"{i}\n") #writes stock ticker to file
-                    completed_list.append(i) #writes to list outside the scope of this loop and method.
-
+                    completed_list.append(i) #writes to list outside the scope of this loop and method.      
             except KeyError:
                 print(f"Incomplete data for {i} KeyError at line 99")
-            
             x+=1
 
     # Method for comparing lists created. 
@@ -157,7 +153,7 @@ while True:
             if i not in list1:
                 print(f"${i} Not in first scan\n")
                 #tweets changes in watchlist
-                #apitweet.update_status(f"{i} added to watchlist")
+                #apitweet.update_status(f"Alert triggered on {i}.")
 
     print('\nWatchlist:\n')
     makelist(set1, barsets1)
