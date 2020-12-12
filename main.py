@@ -7,10 +7,16 @@ import numpy as np
 import matplotlib as mpl
 from datetime import date, time, datetime
 import time as t
+import tweepy
 
 while True:
-    # Creates API object
+    # Creates API object for OHLC
     api = tradeapi.REST(creds.api_key, creds.api_secret, api_version='v1') 
+
+    # Twitter API
+    auth = tweepy.OAuthHandler(creds.consumer_key, creds.consumer_secret)
+    auth.set_access_token(creds.access_token, creds.access_token_secret)
+    apitweet = tweepy.API(auth)
 
     # Can only call 100 stocks at a time thru the api so had to split it up
     set1 = spx500.stocklist[:100]
@@ -83,7 +89,7 @@ while True:
             if i == 0:
                 trade_signal.append(''),
             elif i > 1:
-                trade_signal.append('XXXXXXX'),
+                trade_signal.append(''),
             elif i < 0:
                 trade_signal.append('XXXXXXX'),
             elif i <= 1 and i >= 0:
@@ -149,7 +155,9 @@ while True:
     def comparelist(list1,list2):
         for i in list2:
             if i not in list1:
-                print(f"{i} Not in first scan\n")
+                print(f"${i} Not in first scan\n")
+                #tweets changes in watchlist
+                #apitweet.update_status(f"{i} added to watchlist")
 
     print('\nWatchlist:\n')
     makelist(set1, barsets1)
