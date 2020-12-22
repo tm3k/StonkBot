@@ -40,6 +40,7 @@ while True:
     #holds 2 lists of signal stock tickers and used to compare between past sets.
     completed_list = []
     completed_list2 = []
+    completed_list3 = []
 
     # Method for getting ohlc data for the stock 30 days at a time
     def make_df(stock):
@@ -120,7 +121,7 @@ while True:
             writer = open(f"{today} {time}.txt", 'a') #cant write : to a filename    
             try:
                 if bools[99] == True:
-                    print(f"${i} - ${price[99]}") #prints stock ticker to console
+                    print(f"${i} - ${price[99].round(2)}") #prints stock ticker to console
                     writer.write(f"{i}\n") #writes stock ticker to file
                     completed_list2.append(i) #writes to list outside the scope of this loop and method.
             except KeyError:
@@ -142,7 +143,7 @@ while True:
             writer = open(f"{today} {time}.txt", 'a') #cant write : to a filename    
             try:
                 if bools[99] == True:
-                    print(f"${i} - ${price[99]}") #prints stock ticker to console
+                    print(f"${i} - ${price[99].round(2)}") #prints stock ticker to console
                     writer.write(f"{i}\n") #writes stock ticker to file
                     completed_list.append(i) #writes to list outside the scope of this loop and method.      
             except KeyError:
@@ -157,9 +158,10 @@ while True:
                 #tweets changes in watchlist
                 #apitweet.update_status(f"Alert triggered on {i}.")  # Code to tweet changes.
 
-    today = datetime.now()     
+    today = datetime.now()
+    today = today.strftime("\n%Y-%m-%d %H:%M")    
     print(today)
-    print('Watchlist:\n')
+    print('\nWatchlist:\n')
     makelist(set1, barsets1)
     makelist(set2, barsets2)
     makelist(set3, barsets3)
@@ -175,8 +177,8 @@ while True:
     # 10 min = 600
     # 15 min = 900
     # 30 min = 1800
-    print("\nScanning again in 30 minutes.\nWaiting...")
-    t.sleep(1800)
+    print("\nScanning again in 15 minutes.\nWaiting...")
+    t.sleep(900)
     print('\nSecond Scan:\n')
 
     makelist2(set1, barsets1)
