@@ -119,7 +119,7 @@ while True:
             writer = open(f"{today} {time}.txt", 'a') #cant write : to a filename    
             try:
                 if bools[99] == True:
-                    print(f"${i}") #prints stock ticker to console
+                    print(f"${i} ${price[99]}") #prints stock ticker to console
                     writer.write(f"{i}\n") #writes stock ticker to file
                     completed_list2.append(i) #writes to list outside the scope of this loop and method.
             except KeyError:
@@ -132,6 +132,7 @@ while True:
             bars = barset[(i)]
             db = make_df(bars)
             signal = (db['Trade'])
+            price = db['close']
             var = signal.tail(1)
             bools = var.str.contains('XXXXXXX')
             today = date.today()  # Code for writing to file with date and time.
@@ -140,7 +141,7 @@ while True:
             writer = open(f"{today} {time}.txt", 'a') #cant write : to a filename    
             try:
                 if bools[99] == True:
-                    print(f"${i}") #prints stock ticker to console
+                    print(f"${i} ${price[99]}") #prints stock ticker to console
                     writer.write(f"{i}\n") #writes stock ticker to file
                     completed_list.append(i) #writes to list outside the scope of this loop and method.      
             except KeyError:
@@ -155,7 +156,9 @@ while True:
                 #tweets changes in watchlist
                 #apitweet.update_status(f"Alert triggered on {i}.")
 
-    print('\nWatchlist:\n')
+    today = date.today()            
+    print(today)
+    print('Watchlist:\n')
     makelist(set1, barsets1)
     makelist(set2, barsets2)
     makelist(set3, barsets3)
