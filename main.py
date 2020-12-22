@@ -119,7 +119,7 @@ while True:
             writer = open(f"{today} {time}.txt", 'a') #cant write : to a filename    
             try:
                 if bools[99] == True:
-                    print(f"${i} ${price[99]}") #prints stock ticker to console
+                    print(f"${i} - ${price[99]}") #prints stock ticker to console
                     writer.write(f"{i}\n") #writes stock ticker to file
                     completed_list2.append(i) #writes to list outside the scope of this loop and method.
             except KeyError:
@@ -141,7 +141,7 @@ while True:
             writer = open(f"{today} {time}.txt", 'a') #cant write : to a filename    
             try:
                 if bools[99] == True:
-                    print(f"${i} ${price[99]}") #prints stock ticker to console
+                    print(f"${i} - ${price[99]}") #prints stock ticker to console
                     writer.write(f"{i}\n") #writes stock ticker to file
                     completed_list.append(i) #writes to list outside the scope of this loop and method.      
             except KeyError:
@@ -154,7 +154,7 @@ while True:
             if i not in list1:
                 print(f"${i} Not in first scan\n")
                 #tweets changes in watchlist
-                #apitweet.update_status(f"Alert triggered on {i}.")
+                #apitweet.update_status(f"Alert triggered on {i}.")  # Code to tweet changes.
 
     today = date.today()            
     print(today)
