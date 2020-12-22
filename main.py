@@ -111,6 +111,7 @@ while True:
             bars = barset[(i)]
             db = make_df(bars)
             signal = (db['Trade'])
+            price = db['close']
             var = signal.tail(1)
             bools = var.str.contains('XXXXXXX')
             today = date.today()  # Code for writing to file with date and time.
@@ -156,7 +157,7 @@ while True:
                 #tweets changes in watchlist
                 #apitweet.update_status(f"Alert triggered on {i}.")  # Code to tweet changes.
 
-    today = date.today()            
+    today = datetime.now()     
     print(today)
     print('Watchlist:\n')
     makelist(set1, barsets1)
@@ -188,7 +189,7 @@ while True:
     makelist2(set8, barsets8)
 
     # passes two lists at top of program into method to compare differences. working?? not sure
-    completed_list = sorted(completed_list)   #
-    completed_list2 = sorted(completed_list2) #Alphabetical order list
-    comparelist(completed_list,completed_list2)
+    completed_list = sorted(completed_list)      
+    completed_list2 = sorted(completed_list2)    # Alphabetical order list
+    comparelist(completed_list,completed_list2)  
   
