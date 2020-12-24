@@ -40,7 +40,6 @@ while True:
     #holds 2 lists of signal stock tickers and used to compare between past sets.
     completed_list = []
     completed_list2 = []
-    completed_list3 = []
 
     # Method for getting ohlc data for the stock 30 days at a time
     def make_df(stock):
@@ -89,7 +88,7 @@ while True:
             if i == 0:
                 trade_signal.append(''),
             elif i > 1:
-                trade_signal.append(''),
+                trade_signal.append('XXXXXXX'),
             elif i < 0:
                 trade_signal.append('XXXXXXX'),
             elif i <= 1 and i >= 0:
@@ -152,16 +151,17 @@ while True:
 
     # Method for comparing lists created. 
     def comparelist(list1,list2):
-        for i in list2:
-            if i not in list1:
-                print(f"${i} Not in first scan\n")
-                #tweets changes in watchlist
-                #apitweet.update_status(f"Alert triggered on {i}.")  # Code to tweet changes.
+        for i in list1:
+            if i in list2:
+                pass
+            else:
+                print(f"${i} not in first scan\n")
+                apitweet.update_status(f"Alert triggered on ${i}.")  # Code to tweet changes. #tweets changes in watchlist
 
     today = datetime.now()
-    today = today.strftime("\n%Y-%m-%d %H:%M")    
+    today = today.strftime("\n%Y-%m-%d %H:%M PST")    
     print(today)
-    print('\nWatchlist:\n')
+    print('Watchlist:\n')
     makelist(set1, barsets1)
     makelist(set2, barsets2)
     makelist(set3, barsets3)
@@ -177,9 +177,9 @@ while True:
     # 10 min = 600
     # 15 min = 900
     # 30 min = 1800
-    print("\nScanning again in 15 minutes.\nWaiting...")
-    t.sleep(900)
-    print('\nSecond Scan:\n')
+    print("\nScanning again in 30 minutes.\nWaiting...")
+    t.sleep(1800)
+    print('\nNext Scan:\n')
 
     makelist2(set1, barsets1)
     makelist2(set2, barsets2)
@@ -190,8 +190,6 @@ while True:
     makelist2(set7, barsets7)
     makelist2(set8, barsets8)
 
-    # passes two lists at top of program into method to compare differences. working?? not sure
-    completed_list = sorted(completed_list)      
-    completed_list2 = sorted(completed_list2)    # Alphabetical order list
+    # passes two lists at top of program into method to compare differences.
     comparelist(completed_list,completed_list2)  
   
