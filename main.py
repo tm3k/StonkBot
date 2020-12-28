@@ -6,16 +6,11 @@ import pandas as pd
 import numpy as np
 from datetime import date, time, datetime
 import time as t
-import tweepy
+
 
 while True:
     # Creates API object for OHLC
     api = tradeapi.REST(creds.api_key, creds.api_secret, api_version='v1') 
-
-    # Twitter API
-    auth = tweepy.OAuthHandler(creds.consumer_key, creds.consumer_secret)
-    auth.set_access_token(creds.access_token, creds.access_token_secret)
-    apitweet = tweepy.API(auth)
 
     # Can only call 100 stocks at a time thru the api so had to split it up
     set1 = spx500.stocklist[:100]
@@ -26,6 +21,10 @@ while True:
     set6 = spx500.stocklist[500:600]
     set7 = spx500.stocklist[600:700]
     set8 = spx500.stocklist[700:800]
+    set8 = spx500.stocklist[800:900]
+    #set9 = spx500.stocklist[900:1000]
+    #set10 = spx500.stocklist[1000:1100]
+
 
     #ohlc data for each set of stocks
     barsets1 = api.get_barset(set1, timeframe = '1D', limit = 100)
@@ -36,10 +35,9 @@ while True:
     barsets6 = api.get_barset(set6, timeframe = '1D', limit = 100)
     barsets7 = api.get_barset(set7, timeframe = '1D', limit = 100)
     barsets8 = api.get_barset(set8, timeframe = '1D', limit = 100)
+    #barsets9 = api.get_barset(set9, timeframe = '1D', limit = 100)
+    #barsets10 = api.get_barset(set10, timeframe = '1D', limit = 100)
 
-    #holds 2 lists of signal stock tickers and used to compare between past sets.
-    completed_list = []
-    completed_list2 = []
 
     # Method for getting ohlc data for the stock 30 days at a time
     def make_df(stock):
@@ -104,29 +102,7 @@ while True:
         return df
 
     # Methods for taking OHLC data and creating a list of stocks that fit the predetermined buy parameters, 
-    # Need multiple methods because of API limit
-    def makelist2(set, barset):
-        x=1 #iterable value to loop through tickers
-        for i in set:
-            bars = barset[(i)]
-            db = make_df(bars)
-            signal = (db['Trade'])
-            price = db['close']
-            var = signal.tail(1)
-            bools = var.str.contains('XXXXXXX')
-            today = date.today()  # Code for writing to file with date and time.
-            now = datetime.now()
-            time = now.strftime(" H%H M%M")
-            writer = open(f"{today} {time}.txt", 'a') #cant write : to a filename    
-            try:
-                if bools[99] == True:
-                    print(f"${i} - ${price[99].round(2)}") #prints stock ticker to console
-                    writer.write(f"{i}\n") #writes stock ticker to file
-                    completed_list2.append(i) #writes to list outside the scope of this loop and method.
-            except KeyError:
-                print(f"Incomplete data for {i} KeyError at line 99")
-            x+=1
-
+    
     def makelist(set, barset):
         x=1 #iterable value to loop through tickers
         for i in set:
@@ -144,24 +120,15 @@ while True:
                 if bools[99] == True:
                     print(f"${i} - ${price[99].round(2)}") #prints stock ticker to console
                     writer.write(f"{i}\n") #writes stock ticker to file
-                    completed_list.append(i) #writes to list outside the scope of this loop and method.      
+                    
             except KeyError:
                 print(f"Incomplete data for {i} KeyError at line 99")
             x+=1
 
-    # Method for comparing lists created. 
-    def comparelist(list1,list2):
-        for i in list1:
-            if i in list2:
-                pass
-            else:
-                print(f"${i} not in first scan\n")
-                apitweet.update_status(f"Alert triggered on ${i}.")  # Code to tweet changes. #tweets changes in watchlist
-
     today = datetime.now()
     today = today.strftime("\n%Y-%m-%d %H:%M PST")    
     print(today)
-    print('Watchlist:\n')
+    print('Volatility Watchlist:\n')
     makelist(set1, barsets1)
     makelist(set2, barsets2)
     makelist(set3, barsets3)
@@ -170,6 +137,8 @@ while True:
     makelist(set6, barsets6)
     makelist(set7, barsets7)
     makelist(set8, barsets8)
+    #makelist(set9, barsets9)
+    #makelist(set10, barsets10)
 
     # waits 300 seconds aka 5 minutes after finish writing completed_list ^^ 
     # runs program again and checks for differences in the 2 lists
@@ -177,19 +146,6 @@ while True:
     # 10 min = 600
     # 15 min = 900
     # 30 min = 1800
-    print("\nScanning again in 30 minutes.\nWaiting...")
-    t.sleep(1800)
-    print('\nNext Scan:\n')
-
-    makelist2(set1, barsets1)
-    makelist2(set2, barsets2)
-    makelist2(set3, barsets3)
-    makelist2(set4, barsets4)
-    makelist2(set5, barsets5)
-    makelist2(set6, barsets6)
-    makelist2(set7, barsets7)
-    makelist2(set8, barsets8)
-
-    # passes two lists at top of program into method to compare differences.
-    comparelist(completed_list,completed_list2)  
-  
+    print("\nScanning again in 10 minutes.\nWaiting...")
+    t.sleep(600)
+    
