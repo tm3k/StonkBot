@@ -22,8 +22,8 @@ while True:
     set7 = spx500.stocklist[600:700]
     set8 = spx500.stocklist[700:800]
     set8 = spx500.stocklist[800:900]
-    #set9 = spx500.stocklist[900:1000]
-    #set10 = spx500.stocklist[1000:1100]
+    set9 = spx500.stocklist[900:1000]
+    set10 = spx500.stocklist[1000:1100]
 
 
     #ohlc data for each set of stocks
@@ -35,8 +35,8 @@ while True:
     barsets6 = api.get_barset(set6, timeframe = '1D', limit = 100)
     barsets7 = api.get_barset(set7, timeframe = '1D', limit = 100)
     barsets8 = api.get_barset(set8, timeframe = '1D', limit = 100)
-    #barsets9 = api.get_barset(set9, timeframe = '1D', limit = 100)
-    #barsets10 = api.get_barset(set10, timeframe = '1D', limit = 100)
+    barsets9 = api.get_barset(set9, timeframe = '1D', limit = 100)
+    barsets10 = api.get_barset(set10, timeframe = '1D', limit = 100)
 
 
     # Method for getting ohlc data for the stock 30 days at a time
@@ -137,8 +137,8 @@ while True:
     makelist(set6, barsets6)
     makelist(set7, barsets7)
     makelist(set8, barsets8)
-    #makelist(set9, barsets9)
-    #makelist(set10, barsets10)
+    makelist(set9, barsets9)
+    makelist(set10, barsets10)
 
     # waits 300 seconds aka 5 minutes after finish writing completed_list ^^ 
     # runs program again and checks for differences in the 2 lists
