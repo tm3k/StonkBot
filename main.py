@@ -7,7 +7,6 @@ import numpy as np
 from datetime import date, time, datetime
 import time as t
 
-
 while True:
     # Creates API object for OHLC
     api = tradeapi.REST(creds.api_key, creds.api_secret, api_version='v1') 
@@ -25,7 +24,6 @@ while True:
     set9 = spx500.stocklist[900:1000]
     set10 = spx500.stocklist[1000:1100]
 
-
     #ohlc data for each set of stocks
     barsets1 = api.get_barset(set1, timeframe = '1D', limit = 100)
     barsets2 = api.get_barset(set2, timeframe = '1D', limit = 100)
@@ -37,7 +35,6 @@ while True:
     barsets8 = api.get_barset(set8, timeframe = '1D', limit = 100)
     barsets9 = api.get_barset(set9, timeframe = '1D', limit = 100)
     barsets10 = api.get_barset(set10, timeframe = '1D', limit = 100)
-
 
     # Method for getting ohlc data for the stock 30 days at a time
     def make_df(stock):
@@ -80,18 +77,18 @@ while True:
         bb = TA.PERCENT_B(df)
         bb = np.nan_to_num(bb)  #replaces NaN values with 0.0
         df["%BB"] = bb #Adds %b value column to df
-        trade_signal = [] #loops thru %b values
+        trade_signal = []
+        
         for i in bb:
-            
             if i == 0:
-                trade_signal.append(''),
+                trade_signal.append(''),              
             elif i > 1:
-                trade_signal.append('XXXXXXX'),
+                trade_signal.append('Overbought'),               
             elif i < 0:
-                trade_signal.append('XXXXXXX'),
+                trade_signal.append('Oversold'),
             elif i <= 1 and i >= 0:
-                trade_signal.append('')
-
+                trade_signal.append(''),
+              
         #Adds trade column to df
         action = pd.DataFrame(trade_signal)
         df['Trade'] = action
@@ -111,16 +108,16 @@ while True:
             signal = (db['Trade'])
             price = db['close']
             var = signal.tail(1)
-            bools = var.str.contains('XXXXXXX')
+            boolx = var.str.contains('Overbought')
+            booly = var.str.contains('Oversold')
             today = date.today()  # Code for writing to file with date and time.
             now = datetime.now()
-            time = now.strftime(" H%H M%M")
-            writer = open(f"{today} {time}.txt", 'a') #cant write : to a filename    
+            time = now.strftime(" H%H M%M") 
             try:
-                if bools[99] == True:
-                    print(f"${i} - ${price[99].round(2)}") #prints stock ticker to console
-                    writer.write(f"{i}\n") #writes stock ticker to file
-                    
+                if boolx[99] == True:
+                    print(f"${i} - ${price[99].round(2)} Overbought") 
+                elif booly[99] == True:
+                    print(f"${i} - ${price[99].round(2)} Oversold") 
             except KeyError:
                 print(f"Incomplete data for {i} KeyError at line 99")
             x+=1
@@ -148,4 +145,3 @@ while True:
     # 30 min = 1800
     print("\nScanning again in 10 minutes.\nWaiting...")
     t.sleep(600)
-    
