@@ -114,10 +114,8 @@ while True:
             now = datetime.now()
             time = now.strftime(" H%H M%M") 
             try:
-                if boolx[99] == True:
-                    print(f"${i} - ${price[99].round(2)} Overbought") 
-                elif booly[99] == True:
-                    print(f"${i} - ${price[99].round(2)} Oversold") 
+                if booly[99] == True:
+                    print(f"${i} - ${price[99].round(2)} Oversold")
             except KeyError:
                 print(f"Incomplete data for {i} KeyError at line 99")
             x+=1
