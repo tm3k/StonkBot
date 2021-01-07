@@ -83,7 +83,7 @@ while True:
             if i == 0:
                 trade_signal.append(''),              
             elif i > 1:
-                trade_signal.append('Overbought'),               
+                trade_signal.append(''),               
             elif i < 0:
                 trade_signal.append('Oversold'),
             elif i <= 1 and i >= 0:
@@ -108,7 +108,7 @@ while True:
             signal = (db['Trade'])
             price = db['close']
             var = signal.tail(1)
-            boolx = var.str.contains('Overbought')
+            boolx = var.str.contains('')
             booly = var.str.contains('Oversold')
             today = date.today()  # Code for writing to file with date and time.
             now = datetime.now()
