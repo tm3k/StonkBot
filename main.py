@@ -84,7 +84,7 @@ while True:
                 trade_signal.append(''),              
             elif i > 1:
                 trade_signal.append(''),               
-            elif i < 0:
+            elif i < -0.05:
                 trade_signal.append('Oversold'),
             elif i <= 1 and i >= 0:
                 trade_signal.append(''),
